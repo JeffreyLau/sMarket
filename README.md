@@ -20,4 +20,18 @@ You can initialize this repository with code from a Subversion, Mercurial, or TF
 
 Import code</br>
 
+#creat sPlay branch</br>
+git branch sPlay</br>
+git push origin sPlay</br>
+#sync local and remote branch</br>
+git fetch sPlay</br>
+git checkout --track origin/sPlay</br>
+
+git push origin <local_branch_name>:<remote_branch_name></br>
+git push origin sPlay:sPlay</br>
+#当然如果当前在sPlay分支下，也可以直接</br>
+git push</br>
+#删除远程分支sPlay:</br>
+git push origin :sPlay</br>
+
 
