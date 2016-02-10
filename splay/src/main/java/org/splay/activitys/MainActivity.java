@@ -1,4 +1,4 @@
-package org.splay;
+package org.splay.activitys;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import org.splay.R;
 
 public class MainActivity extends AppCompatActivity {
 
