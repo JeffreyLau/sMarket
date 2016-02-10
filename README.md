@@ -34,4 +34,7 @@ git push</br>
 #删除远程分支sPlay:</br>
 git push origin :sPlay</br>
 
+git push origin :sPlay</br>
+To git@github.com:JeffreyLau/sMarket.git</br>
+ - [deleted]         sPlay</br>
 
