@@ -1,1 +1,1 @@
-include ':splay', ':xutils', ':sample'
+include ':splay', ':xutils', ':sxutils', ':PagerSlidingTabStrip', ':sPagerSlidingTabStrip'
