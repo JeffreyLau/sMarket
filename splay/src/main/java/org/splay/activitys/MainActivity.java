@@ -3,12 +3,19 @@ package org.splay.activitys;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.astuetz.PagerSlidingTabStrip;
 
 import org.splay.R;
+import org.splay.utils.UIUtils;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -19,6 +26,11 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     @ViewInject(R.id.fab)
     private FloatingActionButton fab;
+    @ViewInject(R.id.main_tabs)
+    private PagerSlidingTabStrip main_tabs;
+    @ViewInject(R.id.main_viewpager)
+    private ViewPager main_viewpager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +44,52 @@ public class MainActivity extends BaseActivity {
                         .setAction("Action", null).show();
             }
         });
+        main_viewpager.setAdapter(new HomePagerAdapter());
+        main_tabs.setViewPager(main_viewpager);
     }
+
+    private String[] initViewPager() {
+        return UIUtils.getStringArr(R.array.main_titles);
+    }
+
+    private class HomePagerAdapter extends PagerAdapter {
+        private String[] pagerTitle;
+
+        private HomePagerAdapter() {
+            pagerTitle = initViewPager();
+        }
+
+        @Override
+        public int getCount() {
+            if (null != pagerTitle)
+                return pagerTitle.length;
+            return 0;
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            TextView textView = new TextView(getApplicationContext());
+            textView.setText(pagerTitle[position]);
+            container.addView(textView);
+            return textView;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pagerTitle[position];
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
