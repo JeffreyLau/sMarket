@@ -8,7 +8,6 @@ import android.os.Handler;
 public interface AsyncCallback {
 
     public interface RemoteRequstCallback {
-
         public static final int REMOTE_REQUEST_ONSUCCESS = 0x10000;
         public static final int REMOTE_REQUEST_ONERROR = 0x10001;
         public static final int REMOTE_REQUEST_ONFINSHED = 0x10002;
@@ -29,6 +28,5 @@ public interface AsyncCallback {
         public void registerForRequestOnFinished(Handler h, int what, Object obj);
         public void unregisterForRequestOnFinished(Handler h);
         public void notifyRequestOnFinishedRegistrants(AsyncResult ar);
-
     }
 }

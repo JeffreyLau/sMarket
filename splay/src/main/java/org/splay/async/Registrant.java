@@ -6,84 +6,84 @@ import android.os.Message;
 import java.lang.ref.WeakReference;
 
 public class Registrant {
-	
-	WeakReference refH;
-	int what;
-	Object userObj;
 
-	public Registrant(Handler h, int what, Object obj) {
-		refH = new WeakReference(h);
-		this.what = what;
-		userObj = obj;
-	}
+    WeakReference refH;
+    int what;
+    Object userObj;
 
-	public void clear() {
-		refH = null;
-		userObj = null;
-	}
+    public Registrant(Handler h, int what, Object obj) {
+        refH = new WeakReference(h);
+        this.what = what;
+        userObj = obj;
+    }
 
-	public void notifyRegistrant() {
-		internalNotifyRegistrant(null, null);
-	}
+    public void clear() {
+        refH = null;
+        userObj = null;
+    }
 
-	public void notifyResult(Object result) {
-		internalNotifyRegistrant(result, null);
-	}
+    public void notifyRegistrant() {
+        internalNotifyRegistrant(null, null);
+    }
 
-	public void notifyException(Throwable exception) {
-		internalNotifyRegistrant(null, exception);
-	}
+    public void notifyResult(Object result) {
+        internalNotifyRegistrant(result, null);
+    }
 
-	/**
-	 * This makes a copy of @param ar
-	 */
-	public void notifyRegistrant(AsyncResult ar) {
-		internalNotifyRegistrant(ar.result, ar.exception);
-	}
+    public void notifyException(Throwable exception) {
+        internalNotifyRegistrant(null, exception);
+    }
 
-	/* package */void internalNotifyRegistrant(Object result,
-			Throwable exception) {
-		Handler h = getHandler();
+    /**
+     * This makes a copy of @param ar
+     */
+    public void notifyRegistrant(AsyncResult ar) {
+        internalNotifyRegistrant(ar.result, ar.exception);
+    }
 
-		if (h == null) {
-			clear();
-		} else {
-			Message msg = Message.obtain();
+    /* package */void internalNotifyRegistrant(Object result,
+                                               Throwable exception) {
+        Handler h = getHandler();
 
-			msg.what = what;
+        if (h == null) {
+            clear();
+        } else {
+            Message msg = Message.obtain();
 
-			msg.obj = new AsyncResult(userObj, result, exception);
+            msg.what = what;
 
-			h.sendMessage(msg);
-		}
-	}
+            msg.obj = new AsyncResult(userObj, result, exception);
 
-	/**
-	 * NOTE: May return null if weak reference has been collected
-	 */
+            h.sendMessage(msg);
+        }
+    }
 
-	public Message messageForRegistrant() {
-		Handler h = getHandler();
+    /**
+     * NOTE: May return null if weak reference has been collected
+     */
 
-		if (h == null) {
-			clear();
+    public Message messageForRegistrant() {
+        Handler h = getHandler();
 
-			return null;
-		} else {
-			Message msg = h.obtainMessage();
+        if (h == null) {
+            clear();
 
-			msg.what = what;
-			msg.obj = userObj;
+            return null;
+        } else {
+            Message msg = h.obtainMessage();
 
-			return msg;
-		}
-	}
+            msg.what = what;
+            msg.obj = userObj;
 
-	public Handler getHandler() {
-		if (refH == null)
-			return null;
+            return msg;
+        }
+    }
 
-		return (Handler) refH.get();
-	}
+    public Handler getHandler() {
+        if (refH == null)
+            return null;
+
+        return (Handler) refH.get();
+    }
 
 }
