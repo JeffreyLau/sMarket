@@ -1,6 +1,7 @@
 package org.splay.fragment;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.util.SparseArrayCompat;
 
 /**
  * Created by jeffrey on 16-2-13.
@@ -16,6 +17,9 @@ public class BaseFragmentManager {
     public static final int FRAGMENT_CATEGORY = 5;
     public static final int FRAGMENT_HOT = 6;
 
+    private static SparseArrayCompat<BaseFragment> cacheFragment =
+            new SparseArrayCompat<BaseFragment>();
+
     public static final BaseFragmentManager getDefault() {
         if (sInstance == null) {
             sInstance = new BaseFragmentManager();
@@ -25,6 +29,11 @@ public class BaseFragmentManager {
 
     public static Fragment getFragment(int position) {
         BaseFragment mBaseFragment = null;
+        BaseFragment mFragment = cacheFragment.get(position);
+        if (null != mFragment) {
+            mBaseFragment = mFragment;
+            return mBaseFragment;
+        }
         switch (position) {
             case FRAGMENT_HOME:
                 mBaseFragment = new HomeFragment();
@@ -50,6 +59,7 @@ public class BaseFragmentManager {
             default:
                 break;
         }
+        cacheFragment.put(position,mBaseFragment);
         return mBaseFragment;
     }
 }
