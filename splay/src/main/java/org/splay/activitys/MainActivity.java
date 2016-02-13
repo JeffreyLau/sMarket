@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -50,7 +51,8 @@ public class MainActivity extends BaseActivity {
             }
         });
         //main_viewpager.setAdapter(new HomePagerAdapter());
-        main_viewpager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
+        //main_viewpager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
+        main_viewpager.setAdapter(new MainFragmentStateAdapter(getSupportFragmentManager()));
         main_tabs.setViewPager(main_viewpager);
     }
 
@@ -125,6 +127,34 @@ public class MainActivity extends BaseActivity {
         private String[] pagerTitle;
 
         public MainFragmentAdapter(FragmentManager fm) {
+            super(fm);
+            pagerTitle = initViewPager();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            LogUtils.d("初始化:" + pagerTitle[position]);
+            return BaseFragmentManager.getFragment(position);
+        }
+
+        @Override
+        public int getCount() {
+            if (null != pagerTitle)
+                return pagerTitle.length;
+            return 0;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pagerTitle[position];
+        }
+    }
+
+    private class MainFragmentStateAdapter extends FragmentStatePagerAdapter {
+
+        private String[] pagerTitle;
+
+        public MainFragmentStateAdapter(FragmentManager fm) {
             super(fm);
             pagerTitle = initViewPager();
         }
