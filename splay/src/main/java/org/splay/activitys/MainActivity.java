@@ -3,6 +3,9 @@ package org.splay.activitys;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +18,8 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.splay.R;
+import org.splay.fragment.BaseFragmentManager;
+import org.splay.utils.LogUtils;
 import org.splay.utils.UIUtils;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -44,7 +49,8 @@ public class MainActivity extends BaseActivity {
                         .setAction("Action", null).show();
             }
         });
-        main_viewpager.setAdapter(new HomePagerAdapter());
+        //main_viewpager.setAdapter(new HomePagerAdapter());
+        main_viewpager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
         main_tabs.setViewPager(main_viewpager);
     }
 
@@ -94,9 +100,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        //return true;
-        return false;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
@@ -104,14 +109,42 @@ public class MainActivity extends BaseActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        /*int id = item.getItemId();
+        int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
-        return super.onOptionsItemSelected(item);*/
-        return false;
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    private class MainFragmentAdapter extends FragmentPagerAdapter {
+
+        private String[] pagerTitle;
+
+        public MainFragmentAdapter(FragmentManager fm) {
+            super(fm);
+            pagerTitle = initViewPager();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            LogUtils.d("初始化:" + pagerTitle[position]);
+            return BaseFragmentManager.getFragment(position);
+        }
+
+        @Override
+        public int getCount() {
+            if (null != pagerTitle)
+                return pagerTitle.length;
+            return 0;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return pagerTitle[position];
+        }
     }
 }
