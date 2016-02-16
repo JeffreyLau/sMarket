@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import org.splay.adapter.HomeAdapter;
+import org.splay.base.BaseListAdapter;
 import org.splay.base.BaseFragment;
 import org.splay.base.BaseLoadState;
 
@@ -19,7 +20,7 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private HomeAdapter mHomeAdapter;
-
+    private HomeAdapter mHome2Adapter;
     @Override
     public View onInitSuccessView() {
         mRecyclerView = new RecyclerView(mContext);
@@ -27,7 +28,7 @@ public class HomeFragment extends BaseFragment {
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mHomeAdapter = new HomeAdapter(mContext);
-        mHomeAdapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+        mHomeAdapter.setOnItemClickListener(new BaseListAdapter.OnItemClickListener() {
             //public static Toast makeText(Context context, CharSequence text, @Duration int duration)
             @Override
             public void onItemClick(View view, int position) {
