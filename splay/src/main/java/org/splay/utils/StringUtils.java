@@ -70,7 +70,7 @@ public class StringUtils {
 	 */
 	public static Spanned getHtmlStyleString(int resId) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<a href=\"\"><u><b>").append(UIUtils.getString(resId))
+		sb.append("<a href=\"\"><u><b>").append(ViewUIUtils.getString(resId))
 				.append(" </b></u></a>");
 		return Html.fromHtml(sb.toString());
 	}

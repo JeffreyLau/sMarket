@@ -23,7 +23,7 @@ import java.util.Properties;
 public class FileUtils {
 
 	public static final String ROOT_DIR = "Android/data/"
-			+ UIUtils.getPackageName();
+			+ ViewUIUtils.getPackageName();
 	public static final String DOWNLOAD_DIR = "download";
 	public static final String CACHE_DIR = "cache";
 	public static final String ICON_DIR = "icon";
@@ -83,7 +83,7 @@ public class FileUtils {
 
 	/** 获取应用的cache目录 */
 	public static String getCachePath() {
-		File f = UIUtils.getContext().getCacheDir();
+		File f = ViewUIUtils.getContext().getCacheDir();
 		if (null == f) {
 			return null;
 		} else {

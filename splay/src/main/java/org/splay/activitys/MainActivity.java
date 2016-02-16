@@ -19,9 +19,10 @@ import android.widget.TextView;
 import com.astuetz.PagerSlidingTabStrip;
 
 import org.splay.R;
-import org.splay.fragment.BaseFragmentManager;
+import org.splay.base.BaseActivity;
+import org.splay.base.BaseFragmentManager;
 import org.splay.utils.LogUtils;
-import org.splay.utils.UIUtils;
+import org.splay.utils.ViewUIUtils;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private String[] initViewPager() {
-        return UIUtils.getStringArr(R.array.main_titles);
+        return ViewUIUtils.getStringArr(R.array.main_titles);
     }
 
     private class HomePagerAdapter extends PagerAdapter {

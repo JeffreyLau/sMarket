@@ -15,7 +15,7 @@ import org.splay.base.BaseApplication;
  * @updateDate $Date: 2015-07-15 17:06:45 +0800 (星期三, 15 七月 2015) $
  * @updateDes TODO
  */
-public class UIUtils {
+public class ViewUIUtils {
     /**
      * 得到上下文
      */

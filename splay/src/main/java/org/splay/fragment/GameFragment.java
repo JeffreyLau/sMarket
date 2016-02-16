@@ -1,25 +1,24 @@
 package org.splay.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import org.splay.utils.UIUtils;
+import org.splay.base.BaseFragment;
+import org.splay.base.BaseLoadState;
 
 /**
  * Created by jeffrey on 16-2-13.
  */
+
 public class GameFragment extends BaseFragment {
+    private static final String TAG = "GameFragment";
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public View onInitSuccessView() {
+        return null;
     }
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        TextView textView = new TextView(UIUtils.getContext());
-        textView.setText(this.getClass().getSimpleName());
+    public BaseLoadState onAsyncLoading() {
+        return BaseLoadState.SUCCESS;
     }
 }

@@ -1,28 +1,34 @@
 package org.splay.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.os.SystemClock;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.splay.utils.UIUtils;
+import org.splay.base.BaseFragment;
+import org.splay.base.BaseLoadState;
 
 /**
  * Created by jeffrey on 16-2-13.
  */
 public class HomeFragment extends BaseFragment {
+    private static final String TAG = "HotFragment";
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public View onInitSuccessView() {
+        TextView textView = new TextView(mContext);
+        textView.setText(this.getClass().getSimpleName());
+        return textView;
+    }
+
+    @Override
+    public BaseLoadState onAsyncLoading() {
+        SystemClock.sleep(3000);
+        return BaseLoadState.SUCCESS;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        TextView textView = new TextView(UIUtils.getContext());
-        textView.setText(this.getClass().getSimpleName());
-        textView.setTextColor(Color.BLACK);
+        super.onViewCreated(view, savedInstanceState);
+        startLoading();
     }
 }

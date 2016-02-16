@@ -1,7 +1,15 @@
-package org.splay.fragment;
+package org.splay.base;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.util.SparseArrayCompat;
+
+import org.splay.fragment.AppFragment;
+import org.splay.fragment.CategoryFragment;
+import org.splay.fragment.GameFragment;
+import org.splay.fragment.HomeFragment;
+import org.splay.fragment.HotFragment;
+import org.splay.fragment.RecommendFragment;
+import org.splay.fragment.SubjectFragment;
 
 /**
  * Created by jeffrey on 16-2-13.
@@ -59,7 +67,7 @@ public class BaseFragmentManager {
             default:
                 break;
         }
-        cacheFragment.put(position,mBaseFragment);
+        cacheFragment.put(position, mBaseFragment);
         return mBaseFragment;
     }
 }

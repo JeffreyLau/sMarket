@@ -1,4 +1,4 @@
-package org.splay.activitys;
+package org.splay.base;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
