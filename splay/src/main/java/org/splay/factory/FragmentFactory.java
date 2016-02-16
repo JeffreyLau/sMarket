@@ -1,8 +1,8 @@
-package org.splay.base;
+package org.splay.factory;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.util.SparseArrayCompat;
 
+import org.splay.base.BaseFragment;
 import org.splay.fragment.AppFragment;
 import org.splay.fragment.CategoryFragment;
 import org.splay.fragment.GameFragment;
@@ -14,9 +14,9 @@ import org.splay.fragment.SubjectFragment;
 /**
  * Created by jeffrey on 16-2-13.
  */
-public class BaseFragmentManager {
+public class FragmentFactory {
 
-    private static BaseFragmentManager sInstance;
+    private static FragmentFactory sInstance;
     public static final int FRAGMENT_HOME = 0;
     public static final int FRAGMENT_APP = 1;
     public static final int FRAGMENT_GAME = 2;
@@ -28,14 +28,14 @@ public class BaseFragmentManager {
     private static SparseArrayCompat<BaseFragment> cacheFragment =
             new SparseArrayCompat<BaseFragment>();
 
-    public static final BaseFragmentManager getDefault() {
+    public static final FragmentFactory getDefault() {
         if (sInstance == null) {
-            sInstance = new BaseFragmentManager();
+            sInstance = new FragmentFactory();
         }
         return sInstance;
     }
 
-    public static Fragment getFragment(int position) {
+    public static BaseFragment getFragment(int position) {
         BaseFragment mBaseFragment = null;
         BaseFragment mFragment = cacheFragment.get(position);
         if (null != mFragment) {

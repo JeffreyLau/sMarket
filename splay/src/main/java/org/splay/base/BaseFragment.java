@@ -3,12 +3,14 @@ package org.splay.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.splay.R;
+import org.splay.factory.ThreadPoolFactory;
 import org.splay.utils.ViewUIUtils;
 
 /**
@@ -16,15 +18,21 @@ import org.splay.utils.ViewUIUtils;
  */
 public abstract class BaseFragment extends Fragment {
 
+    private static final String TAG = "BaseFragment";
     private boolean injected = false;
     public Context mContext;
     private FrameViewHolder mFrameViewHolder;
+
+    public FrameViewHolder getFrameViewHolder() {
+        return mFrameViewHolder;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContext = getActivity();
-        mFrameViewHolder = new FrameViewHolder(mContext);
+        if (null == mFrameViewHolder)
+            mFrameViewHolder = new FrameViewHolder(mContext);
         return mFrameViewHolder;
         //injected = true;
         //return x.view().inject(this, inflater, container);
@@ -52,18 +60,14 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (null != mFrameViewHolder)
-            mFrameViewHolder.removeCommonView();
-    }
-
-    public void startLoading() {
-        if (null != mFrameViewHolder)
-            mFrameViewHolder.startLoading();
+        //if (null != mFrameViewHolder)
+        //     mFrameViewHolder.removeCommonView();
     }
 
     /**
      * 因为每个子Fragment都不知道要如何显示
      * 所以每个子Fragment必须实现该方法
+     *
      * @return
      */
     public abstract View onInitSuccessView();
@@ -72,6 +76,7 @@ public abstract class BaseFragment extends Fragment {
      * 用于子类异步加载数据
      * 放在哪里加载?
      * 放在当前页面被选中的时候加载
+     *
      * @return
      */
     public abstract BaseLoadState onAsyncLoading();
@@ -79,12 +84,13 @@ public abstract class BaseFragment extends Fragment {
     /**
      * 每一个子fragment都用ContentViewGroup来描述
      * 并且每个子Fragment都用下面４种View状态
+     *
      * @mLoadingView :加載數據顯示的視圖
      * @mErrorView:加载数据失败显示的视图
      * @mEmptyView:空视图
      * @mSuccessView:加载数据成功显示的视图
      */
-    private class FrameViewHolder extends FrameLayout {
+    public class FrameViewHolder extends FrameLayout {
 
         private View mLoadingView;
         private View mErrorView;
@@ -100,7 +106,6 @@ public abstract class BaseFragment extends Fragment {
         }
 
         /**
-         *
          * @param context
          */
         private void initCommonView(Context context) {
@@ -108,6 +113,13 @@ public abstract class BaseFragment extends Fragment {
             this.mLoadingView = View.inflate(context, R.layout.pager_loading, null);
             // ② 错误页面
             this.mErrorView = View.inflate(context, R.layout.pager_error, null);
+            this.mErrorView.findViewById(R.id.error_btn_retry).
+                    setOnClickListener(new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.i(TAG, "error_btn_retry");
+                        }
+                    });
             // ③ 空页面
             this.mEmptyView = View.inflate(context, R.layout.pager_empty, null);
         }
@@ -133,12 +145,14 @@ public abstract class BaseFragment extends Fragment {
                 // 创建成功视图
                 this.mSuccessView = onInitSuccessView();
                 //將view添加到本佈局
+                //setPadding(int left, int top, int right, int bottom)
+                //this.setPadding(0,52,0,0);
                 this.addView(mSuccessView);
             }
         }
 
         private void refreshSuccessView() {
-            if (null !=this.mSuccessView) {
+            if (null != this.mSuccessView) {
                 // 控制success视图显示隐藏
                 this.mSuccessView.setVisibility((mState
                         == BaseLoadState.SUCCESS) ? View.VISIBLE : View.GONE);
@@ -167,7 +181,15 @@ public abstract class BaseFragment extends Fragment {
          * 其他子类fragment可以调用该方法加载数据
          */
         public void startLoading() {
-            new Thread(new OnLoadingTask()).start();
+            //每次加载数据前都处于加载状态,如果加载成功过的就无需再次加载数据
+            if (mState != BaseLoadState.SUCCESS &&
+                    mState != BaseLoadState.LOADING) {
+                Log.i(TAG, "startLoading");
+                mState = BaseLoadState.LOADING;
+                refreshUI();
+                //new Thread(new OnLoadingTask()).start();
+                ThreadPoolFactory.getNormalPool().execute(new OnLoadingTask());
+            }
         }
 
         private class OnLoadingTask implements Runnable {

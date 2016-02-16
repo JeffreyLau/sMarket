@@ -20,7 +20,8 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import org.splay.R;
 import org.splay.base.BaseActivity;
-import org.splay.base.BaseFragmentManager;
+import org.splay.base.BaseFragment;
+import org.splay.factory.FragmentFactory;
 import org.splay.utils.LogUtils;
 import org.splay.utils.ViewUIUtils;
 import org.xutils.view.annotation.ContentView;
@@ -55,6 +56,7 @@ public class MainActivity extends BaseActivity {
         //main_viewpager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
         main_viewpager.setAdapter(new MainFragmentStateAdapter(getSupportFragmentManager()));
         main_tabs.setViewPager(main_viewpager);
+        main_tabs.setOnPageChangeListener(new TabOnPageChangeListener());
     }
 
     private String[] initViewPager() {
@@ -135,7 +137,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             LogUtils.d("初始化:" + pagerTitle[position]);
-            return BaseFragmentManager.getFragment(position);
+            return FragmentFactory.getFragment(position);
         }
 
         @Override
@@ -163,7 +165,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
             LogUtils.d("初始化:" + pagerTitle[position]);
-            return BaseFragmentManager.getFragment(position);
+            return FragmentFactory.getFragment(position);
         }
 
         @Override
@@ -176,6 +178,27 @@ public class MainActivity extends BaseActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return pagerTitle[position];
+        }
+    }
+
+    private class TabOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            //触发数据加载
+            BaseFragment mBaseFragment =
+                    FragmentFactory.getFragment(position);
+            mBaseFragment.getFrameViewHolder().startLoading();
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
         }
     }
 }

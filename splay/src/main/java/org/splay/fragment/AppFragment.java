@@ -1,6 +1,7 @@
 package org.splay.fragment;
 
 import android.view.View;
+import android.widget.TextView;
 
 import org.splay.base.BaseFragment;
 import org.splay.base.BaseLoadState;
@@ -14,11 +15,13 @@ public class AppFragment extends BaseFragment {
 
     @Override
     public View onInitSuccessView() {
-        return null;
+        TextView textView = new TextView(mContext);
+        textView.setText(this.getClass().getSimpleName());
+        return textView;
     }
 
     @Override
     public BaseLoadState onAsyncLoading() {
-        return BaseLoadState.SUCCESS;
+        return BaseLoadState.ERROR;
     }
 }
