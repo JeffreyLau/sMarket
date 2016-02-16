@@ -10,6 +10,11 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/PagerSlidingTabStrip" />
+            <option value="$PROJECT_DIR$/sPagerSlidingTabStrip" />
+            <option value="$PROJECT_DIR$/splay" />
+            <option value="$PROJECT_DIR$/sxutils" />
+            <option value="$PROJECT_DIR$/xutils" />
           </set>
         </option>
       </GradleProjectSettings>

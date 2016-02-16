@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/PagerSlidingTabStrip/PagerSlidingTabStrip.iml" filepath="$PROJECT_DIR$/PagerSlidingTabStrip/PagerSlidingTabStrip.iml" />
       <module fileurl="file://$PROJECT_DIR$/sMarket.iml" filepath="$PROJECT_DIR$/sMarket.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sPagerSlidingTabStrip/sPagerSlidingTabStrip.iml" filepath="$PROJECT_DIR$/sPagerSlidingTabStrip/sPagerSlidingTabStrip.iml" />
+      <module fileurl="file://$PROJECT_DIR$/splay/splay.iml" filepath="$PROJECT_DIR$/splay/splay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sxutils/sxutils.iml" filepath="$PROJECT_DIR$/sxutils/sxutils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xutils/xutils.iml" filepath="$PROJECT_DIR$/xutils/xutils.iml" />
     </modules>
   </component>
 </project>
