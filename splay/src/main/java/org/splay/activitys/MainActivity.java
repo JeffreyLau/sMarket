@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -22,6 +24,7 @@ import org.splay.R;
 import org.splay.base.BaseActivity;
 import org.splay.base.BaseFragment;
 import org.splay.factory.FragmentFactory;
+import org.splay.fragment.MenuFragment;
 import org.splay.utils.LogUtils;
 import org.splay.utils.ViewUIUtils;
 import org.xutils.view.annotation.ContentView;
@@ -38,13 +41,25 @@ public class MainActivity extends BaseActivity {
     private PagerSlidingTabStrip main_tabs;
     @ViewInject(R.id.main_viewpager)
     private ViewPager main_viewpager;
-
+    @ViewInject(R.id.menu_fragment)
+    private FrameLayout menu_fragment;
+    private MenuFragment mMenuFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initToolbar();
+        initFab();
+        initViewPagerAndTab();
+        initMenuFragment();
+    }
+
+    private void initToolbar() {
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         toolbar.setTitle("sPlay");
+    }
+
+    private void initFab() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,12 +67,24 @@ public class MainActivity extends BaseActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void initViewPagerAndTab() {
         //main_viewpager.setAdapter(new HomePagerAdapter());
         //main_viewpager.setAdapter(new MainFragmentAdapter(getSupportFragmentManager()));
         main_viewpager.setAdapter(new MainFragmentStateAdapter(getSupportFragmentManager()));
         main_tabs.setViewPager(main_viewpager);
         main_tabs.setOnPageChangeListener(new TabOnPageChangeListener());
     }
+
+    private void initMenuFragment() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        mMenuFragment = new MenuFragment();
+        transaction.replace(R.id.menu_fragment, mMenuFragment);
+        transaction.commit();
+    }
+
 
     private String[] initViewPager() {
         return ViewUIUtils.getStringArr(R.array.main_titles);

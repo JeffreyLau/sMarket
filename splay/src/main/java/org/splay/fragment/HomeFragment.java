@@ -20,8 +20,6 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private HomeAdapter mHomeAdapter;
-    private HomeAdapter mHome2Adapter;
-    @Override
     public View onInitSuccessView() {
         mRecyclerView = new RecyclerView(mContext);
         mLayoutManager = new LinearLayoutManager(mContext);

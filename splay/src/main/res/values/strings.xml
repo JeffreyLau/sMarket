@@ -16,7 +16,6 @@
         <item>排行</item>
     </string-array>
 
-
     <!-- NavMenu -->
     <string-array name="drawer_items">
         <item>首页</item>
