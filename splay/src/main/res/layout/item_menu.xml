@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/selector_menu_drawer_bg"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:clickable="true"
     android:padding="16dp">
-
+    <!--給item增加点击水波纹效果-->
     <ImageView
         android:id="@+id/iv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_home"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/ic_home" />
 
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tv_title"
