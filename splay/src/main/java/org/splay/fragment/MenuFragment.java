@@ -12,6 +12,7 @@ import org.splay.R;
 import org.splay.adapter.MenuAdapter;
 import org.splay.base.BaseDrawerFragment;
 import org.splay.base.BaseListAdapter;
+import org.splay.widget.DividerItem;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -35,9 +36,9 @@ public class MenuFragment extends BaseDrawerFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mLayoutManager = new LinearLayoutManager(mContext);
+        mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mMenuAdapter = new MenuAdapter(mContext);
+        mMenuAdapter = new MenuAdapter(getActivity());
         mMenuAdapter.setOnItemClickListener(new ItemClickListener());
         //设置布局管理器
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -45,6 +46,9 @@ public class MenuFragment extends BaseDrawerFragment {
         mRecyclerView.setAdapter(mMenuAdapter);
         //设置Item增加、移除动画
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //添加分割線
+        mRecyclerView.addItemDecoration(new DividerItem(getActivity(),
+                DividerItem.VERTICAL_LIST));
 
     }
 

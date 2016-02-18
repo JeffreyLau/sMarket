@@ -4,7 +4,8 @@
     <string name="menu_home">home</string>
     <string name="unknow">unknow</string>
 
-
+    <string name="drawer_open">Open Drawer</string>
+    <string name="drawer_close">Close Drawer</string>
     <!-- HomeMenu -->
     <string-array name="main_titles">
         <item>首页</item>

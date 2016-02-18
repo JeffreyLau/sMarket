@@ -8,14 +8,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -33,6 +35,7 @@ import org.xutils.view.annotation.ViewInject;
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+    private static final String TAG = "MainActivity";
     @ViewInject(R.id.toolbar)
     private Toolbar toolbar;
     @ViewInject(R.id.fab)
@@ -41,22 +44,39 @@ public class MainActivity extends BaseActivity {
     private PagerSlidingTabStrip main_tabs;
     @ViewInject(R.id.main_viewpager)
     private ViewPager main_viewpager;
-    @ViewInject(R.id.menu_fragment)
-    private FrameLayout menu_fragment;
+    @ViewInject(R.id.drawer_main)
+    private DrawerLayout drawer_main;
+
     private MenuFragment mMenuFragment;
+    private ActionBarDrawerToggle mToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolbar();
+        initToolbarAndDralerLayout();
+        initMenuFragment();
         initFab();
         initViewPagerAndTab();
-        initMenuFragment();
     }
 
-    private void initToolbar() {
+    private void initToolbarAndDralerLayout() {
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.mipmap.ic_launcher);
         toolbar.setTitle("sPlay");
+
+        //初始化drawerlayout
+        drawer_main.setDrawerShadow(R.mipmap.drawer_shadow,
+                GravityCompat.START);
+        //drawer_main.setDrawerListener(this);
+
+        //初始化ActionBarDrawerToggle
+        //初始化开关，并和drawer关联
+        //为了生成，工具栏左上角的动态图标，要使用下面的方法
+        mToggle = new ActionBarDrawerToggle(this, drawer_main,
+                toolbar, R.string.drawer_open, R.string.drawer_close);
+        mToggle.syncState();//该方法会自动和toolBar关联
+
+        drawer_main.setDrawerListener(mToggle);
     }
 
     private void initFab() {
@@ -68,6 +88,7 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
 
     private void initViewPagerAndTab() {
         //main_viewpager.setAdapter(new HomePagerAdapter());
