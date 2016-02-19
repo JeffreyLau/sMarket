@@ -21,7 +21,8 @@ public class GameFragment extends BaseFragment {
     }
 
     @Override
-    public BaseLoadState onAsyncLoading() {
-        return BaseLoadState.SUCCESS;
+    public BaseLoadState onLoading() {
+        return null;
     }
+
 }

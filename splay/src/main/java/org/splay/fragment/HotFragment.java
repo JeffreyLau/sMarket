@@ -20,7 +20,8 @@ public class HotFragment extends BaseFragment {
     }
 
     @Override
-    public BaseLoadState onAsyncLoading() {
+    public BaseLoadState onLoading() {
         return BaseLoadState.SUCCESS;
     }
+
 }

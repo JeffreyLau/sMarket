@@ -1,5 +1,7 @@
 package org.splay.factory;
 
+import org.splay.task.ThreadPoolProxy;
+
 /**
  * Created by jeffrey on 16-2-16.
  */
@@ -35,4 +37,5 @@ public class ThreadPoolFactory {
         }
         return mDownLoadPool;
     }
+
 }

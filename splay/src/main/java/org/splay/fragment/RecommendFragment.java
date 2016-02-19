@@ -21,7 +21,8 @@ public class RecommendFragment extends BaseFragment {
     }
 
     @Override
-    public BaseLoadState onAsyncLoading() {
+    public BaseLoadState onLoading() {
         return BaseLoadState.SUCCESS;
     }
+
 }

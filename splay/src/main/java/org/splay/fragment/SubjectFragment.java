@@ -20,7 +20,8 @@ public class SubjectFragment extends BaseFragment {
     }
 
     @Override
-    public BaseLoadState onAsyncLoading() {
+    public BaseLoadState onLoading() {
         return BaseLoadState.SUCCESS;
     }
+
 }

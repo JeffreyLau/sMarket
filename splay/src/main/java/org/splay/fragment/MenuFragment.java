@@ -50,6 +50,7 @@ public class MenuFragment extends BaseDrawerFragment {
         mRecyclerView.addItemDecoration(new DividerItem(getActivity(),
                 DividerItem.VERTICAL_LIST));
 
+        //mRecyclerView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
     }
 
     private class ItemClickListener implements BaseListAdapter.OnItemClickListener {

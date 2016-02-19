@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.splay.R;
-import org.splay.factory.ThreadPoolFactory;
+import org.splay.factory.PriorityPoolFactory;
+import org.splay.task.Priority;
+import org.splay.task.PriorityRunnable;
 import org.splay.utils.ViewUIUtils;
+import org.xutils.x;
 
 /**
  * Created by jeffrey on 16-2-13.
@@ -21,19 +24,19 @@ public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
     private boolean injected = false;
     public Context mContext;
-    private FrameViewHolder mFrameViewHolder;
+    private FrameView mFrameView;
 
-    public FrameViewHolder getFrameViewHolder() {
-        return mFrameViewHolder;
+    public FrameView getFrameView() {
+        return mFrameView;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mContext = getActivity();
-        if (null == mFrameViewHolder)
-            mFrameViewHolder = new FrameViewHolder(mContext);
-        return mFrameViewHolder;
+        if (null == mFrameView)
+            mFrameView = new FrameView(mContext);
+        return mFrameView;
         //injected = true;
         //return x.view().inject(this, inflater, container);
     }
@@ -41,9 +44,9 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /*if (!injected) {
+        if (!injected) {
             x.view().inject(this, this.getView());
-        }*/
+        }
     }
 
     @Override
@@ -79,7 +82,7 @@ public abstract class BaseFragment extends Fragment {
      *
      * @return
      */
-    public abstract BaseLoadState onAsyncLoading();
+    public abstract BaseLoadState onLoading();
 
     /**
      * 每一个子fragment都用ContentViewGroup来描述
@@ -90,7 +93,7 @@ public abstract class BaseFragment extends Fragment {
      * @mEmptyView:空视图
      * @mSuccessView:加载数据成功显示的视图
      */
-    public class FrameViewHolder extends FrameLayout {
+    public class FrameView extends FrameLayout {
 
         private View mLoadingView;
         private View mErrorView;
@@ -98,7 +101,7 @@ public abstract class BaseFragment extends Fragment {
         private View mSuccessView;
         private BaseLoadState mState = BaseLoadState.NONE;
 
-        public FrameViewHolder(Context context) {
+        public FrameView(Context context) {
             super(context);
             initCommonView(context);
             addCommonView();
@@ -187,8 +190,9 @@ public abstract class BaseFragment extends Fragment {
                 Log.i(TAG, "startLoading");
                 mState = BaseLoadState.LOADING;
                 refreshUI();
-                //new Thread(new OnLoadingTask()).start();
-                ThreadPoolFactory.getNormalPool().execute(new OnLoadingTask());
+                PriorityPoolFactory.getMainPool().
+                        execute(new PriorityRunnable(Priority.BG_TOP,
+                                new OnLoadingTask()));
             }
         }
 
@@ -197,7 +201,7 @@ public abstract class BaseFragment extends Fragment {
             public void run() {
                 //异步加载数据返回一个BaseLoadState的值
                 BaseLoadState oldState = mState;
-                BaseLoadState newState = onAsyncLoading();
+                BaseLoadState newState = onLoading();
                 //结果处理
                 mState = newState;
                 ViewUIUtils.postTaskSafely(new Runnable() {
@@ -209,5 +213,6 @@ public abstract class BaseFragment extends Fragment {
                 });
             }
         }
+
     }
 }

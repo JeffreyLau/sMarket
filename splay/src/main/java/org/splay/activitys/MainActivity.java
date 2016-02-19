@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity {
             //触发数据加载
             BaseFragment mBaseFragment =
                     FragmentFactory.getFragment(position);
-            mBaseFragment.getFrameViewHolder().startLoading();
+            mBaseFragment.getFrameView().startLoading();
         }
 
         @Override
