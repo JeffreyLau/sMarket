@@ -30,9 +30,11 @@ public abstract class BaseFragment extends Fragment {
         return mFrameView;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
         mContext = getActivity();
         if (null == mFrameView)
             mFrameView = new FrameView(mContext);
@@ -47,6 +49,8 @@ public abstract class BaseFragment extends Fragment {
         if (!injected) {
             x.view().inject(this, this.getView());
         }
+
+        Log.i(TAG,"onViewCreated");
     }
 
     @Override
@@ -57,14 +61,46 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate");
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Log.i(TAG, "onDestroyView");
         //if (null != mFrameViewHolder)
         //     mFrameViewHolder.removeCommonView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.i(TAG, "onStop");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.i(TAG, "onPause");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.i(TAG, "onStart");
     }
 
     /**
@@ -83,6 +119,9 @@ public abstract class BaseFragment extends Fragment {
      * @return
      */
     public abstract BaseLoadState onLoading();
+
+
+
 
     /**
      * 每一个子fragment都用ContentViewGroup来描述

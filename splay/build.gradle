@@ -26,4 +26,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile project(':xutils')
     compile project(':PagerSlidingTabStrip')
+    compile files('libs/gson-2.2.3.jar')
 }

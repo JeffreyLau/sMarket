@@ -6,47 +6,43 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.splay.R;
-import org.splay.base.BaseListAdapter;
-import org.splay.base.BaseListViewHolder;
+import org.splay.adapter.holder.MenuViewHolder;
+import org.splay.base.BaseAdapter;
+import org.splay.base.BaseViewHolder;
+import org.splay.bean.MenuContentInfo;
+
+import java.util.List;
 
 /**
  * Created by jeffrey on 16-2-16.
  */
-public class MenuAdapter extends BaseListAdapter<MenuViewHolder> {
-    private Context context;
-    private String[] itemTitle;
-    private int[] itemIcon;
+public class MenuAdapter extends BaseAdapter<MenuContentInfo> {
 
-    public MenuAdapter(Context context) {
+    private List<MenuContentInfo> infos;
+    private Context context;
+
+    public MenuAdapter(Context context, List<MenuContentInfo> listViews) {
+        super(context, listViews);
+        infos = listViews;
         this.context = context;
-        itemTitle = context.
-                getResources().getStringArray(R.array.drawer_items);
-        itemIcon = new int[]{
-                R.mipmap.ic_home,
-                R.mipmap.ic_setting,
-                R.mipmap.ic_theme,
-                R.mipmap.ic_scans,
-                R.mipmap.ic_feedback,
-                R.mipmap.ic_updates,
-                R.mipmap.ic_about,
-                R.mipmap.ic_exit};
     }
 
     @Override
-    public BaseListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itmview = LayoutInflater.from(context).inflate(R.layout.item_menu, parent, false);
         return new MenuViewHolder(itmview);
     }
 
     @Override
-    public void onBindViewHolder(BaseListViewHolder holder, int position) {
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);//必须继承实现点击事件
         MenuViewHolder mMenuViewHolder = (MenuViewHolder) holder;
-        mMenuViewHolder.setData(itemIcon[position], itemTitle[position]);
+        MenuContentInfo info = infos.get(position);
+        mMenuViewHolder.setData(info);
     }
 
     @Override
     public int getItemCount() {
-        return itemTitle.length;
+        return super.getItemCount();
     }
 }
